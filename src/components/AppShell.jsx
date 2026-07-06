@@ -6,18 +6,21 @@ import {
   Building2,
   LayoutDashboard,
   ClipboardList,
+  ListPlus,
   ShoppingCart,
+  Gift,
   Boxes,
-} from 'lucide-react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { storage } from '../utils/storage';
+} from "lucide-react";
+
+import { NavLink, useNavigate } from "react-router-dom";
+import { storage } from "../utils/storage";
 
 export function AdminShell({ children }) {
   const navigate = useNavigate();
 
   const logout = () => {
     storage.clearAdminSession();
-    navigate('/admin/login', { replace: true });
+    navigate("/admin/login", { replace: true });
   };
 
   return (
@@ -25,6 +28,7 @@ export function AdminShell({ children }) {
       <aside className="sidebar">
         <div className="brand-block">
           <div className="brand-logo">HM</div>
+
           <div>
             <h1>HydraMight</h1>
             <p>Admin Distributor</p>
@@ -33,24 +37,29 @@ export function AdminShell({ children }) {
 
         <nav className="side-nav">
           <NavLink to="/admin/distributors" end>
-            <LayoutDashboard size={18} /> Dashboard
+            <LayoutDashboard size={18} />
+            Dashboard
           </NavLink>
 
           <NavLink to="/admin/distributors/stockists">
-            <Building2 size={18} /> Stockists
+            <Building2 size={18} />
+            Stockists
           </NavLink>
 
           <NavLink to="/admin/distributors/agency-requests">
-            <ClipboardList size={18} /> Agency Requests
+            <ClipboardList size={18} />
+            Agency Requests
           </NavLink>
 
           <NavLink to="/admin/distributors/agencies">
-            <Users size={18} /> Approved Agencies
+            <Users size={18} />
+            Approved Agencies
           </NavLink>
         </nav>
 
         <button className="logout-btn" onClick={logout}>
-          <LogOut size={18} /> Logout
+          <LogOut size={18} />
+          Logout
         </button>
       </aside>
 
@@ -61,11 +70,11 @@ export function AdminShell({ children }) {
 
 export function DistributorShell({ children, user }) {
   const navigate = useNavigate();
-  const isStockist = user?.user_type === 'stockist';
+  const role = user?.user_type;
 
   const logout = () => {
     storage.clearDistributorSession();
-    navigate('/distributor/login', { replace: true });
+    navigate("/distributor/login", { replace: true });
   };
 
   return (
@@ -73,38 +82,72 @@ export function DistributorShell({ children, user }) {
       <aside className="sidebar">
         <div className="brand-block">
           <div className="brand-logo">DN</div>
+
           <div>
             <h1>Distributor</h1>
-            <p>{isStockist ? 'Stockist Portal' : 'Agency Portal'}</p>
+            <p>
+              {role === "agency"
+                ? "Agency Portal"
+                : "Stockist Portal"}
+            </p>
           </div>
         </div>
 
         <nav className="side-nav">
           <NavLink to="/distributor/dashboard">
-            <Home size={18} /> Dashboard
+            <Home size={18} />
+            Dashboard
           </NavLink>
 
-          {isStockist && (
-            <NavLink to="/distributor/products">
-              <Package size={18} /> Buy Products
-            </NavLink>
-          )}
+          {role === "stockist" && (
+            <>
 
-          {isStockist && (
+           
             <NavLink to="/distributor/orders">
               <ShoppingCart size={18} /> My Orders
             </NavLink>
-          )}
+        
 
-          {isStockist && (
+   
             <NavLink to="/distributor/inventory">
               <Boxes size={18} /> My Inventory
             </NavLink>
+  
+              <NavLink to="/distributor/stockist/agency-catalog">
+                <ListPlus size={18} />
+                Agent Catalog
+              </NavLink>
+
+              <NavLink to="/distributor/stockist/agency-orders">
+                <ClipboardList size={18} />
+                Agency Orders
+              </NavLink>
+            </>
+          )}
+
+          {role === "agency" && (
+            <>
+              <NavLink to="/distributor/agency/catalog">
+                <Package size={18} />
+                Shop Catalog
+              </NavLink>
+
+              <NavLink to="/distributor/agency/orders">
+                <ShoppingCart size={18} />
+                My Orders
+              </NavLink>
+
+              <NavLink to="/distributor/agency/benefits">
+                <Gift size={18} />
+                Gifts & Benefits
+              </NavLink>
+            </>
           )}
         </nav>
 
         <button className="logout-btn" onClick={logout}>
-          <LogOut size={18} /> Logout
+          <LogOut size={18} />
+          Logout
         </button>
       </aside>
 

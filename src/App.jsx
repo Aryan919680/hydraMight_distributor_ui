@@ -1,24 +1,31 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminDistributorDashboard from './pages/admin/AdminDistributorDashboard';
-import StockistsPage from './pages/admin/StockistsPage';
-import AgenciesPage from './pages/admin/AgenciesPage';
-import AgencyRequestsPage from './pages/admin/AgencyRequestsPage';
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDistributorDashboard from "./pages/admin/AdminDistributorDashboard";
+import StockistsPage from "./pages/admin/StockistsPage";
+import AgenciesPage from "./pages/admin/AgenciesPage";
+import AgencyRequestsPage from "./pages/admin/AgencyRequestsPage";
 
-import DistributorLogin from './pages/distributor/DistributorLogin';
-import AgencySignupPage from './pages/distributor/AgencySignupPage';
-import DistributorDashboard from './pages/distributor/DistributorDashboard';
+import DistributorLogin from "./pages/distributor/DistributorLogin";
+import AgencySignupPage from "./pages/distributor/AgencySignupPage";
+import DistributorDashboard from "./pages/distributor/DistributorDashboard";
 
+import StockistAgentCatalogPage from "./pages/stockist/StockistAgentCatalogPage";
+import StockistAgencyOrdersPage from "./pages/stockist/StockistAgencyOrdersPage";
 import StockistProductsPage from './pages/stockist/StockistProductsPage';
 import StockistOrdersPage from './pages/stockist/StockistOrdersPage';
 import StockistInventoryPage from './pages/stockist/StockistInventoryPage';
+
+import AgencyCatalogPage from "./pages/agency/AgencyCatalogPage";
+import AgencyOrdersPage from "./pages/agency/AgencyOrdersPage";
+import AgencyBenefitsPage from "./pages/agency/AgencyBenefitsPage";
 
 import {
   AdminProtectedRoute,
   DistributorProtectedRoute,
   StockistProtectedRoute,
-} from './components/ProtectedRoute';
+  AgencyProtectedRoute,
+} from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -66,7 +73,11 @@ export default function App() {
         }
       />
 
-      <Route path="/distributor/login" element={<DistributorLogin />} />
+      <Route
+        path="/distributor/login"
+        element={<DistributorLogin />}
+      />
+
       <Route
         path="/distributor/agency-signup"
         element={<AgencySignupPage />}
@@ -81,7 +92,8 @@ export default function App() {
         }
       />
 
-      <Route
+
+       <Route
         path="/distributor/products"
         element={
           <StockistProtectedRoute>
@@ -111,6 +123,63 @@ export default function App() {
       <Route
         path="/distributor/catalog"
         element={<Navigate to="/distributor/products" replace />}
+      />
+
+
+      <Route
+        path="/distributor/stockist/agency-catalog"
+        element={
+          <StockistProtectedRoute>
+            <StockistAgentCatalogPage />
+          </StockistProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/distributor/stockist/agency-orders"
+        element={
+          <StockistProtectedRoute>
+            <StockistAgencyOrdersPage />
+          </StockistProtectedRoute>
+        }
+      />
+
+
+      <Route
+        path="/distributor/agency/catalog"
+        element={
+          <AgencyProtectedRoute>
+            <AgencyCatalogPage />
+          </AgencyProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/distributor/agency/orders"
+        element={
+          <AgencyProtectedRoute>
+            <AgencyOrdersPage />
+          </AgencyProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/distributor/agency/benefits"
+        element={
+          <AgencyProtectedRoute>
+            <AgencyBenefitsPage />
+          </AgencyProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/distributor/catalog"
+        element={
+          <Navigate
+            to="/distributor/dashboard"
+            replace
+          />
+        }
       />
 
       <Route

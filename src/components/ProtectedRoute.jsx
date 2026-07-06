@@ -1,37 +1,46 @@
-import { Navigate } from 'react-router-dom';
-import { storage } from '../utils/storage';
+import { Navigate } from "react-router-dom";
+import { storage } from "../utils/storage";
 
 export function AdminProtectedRoute({ children }) {
-  const token = storage.getAdminToken();
-
-  if (!token) {
-    return <Navigate to="/admin/login" replace />;
-  }
-
-  return children;
+  return storage.getAdminToken() ? (
+    children
+  ) : (
+    <Navigate to="/admin/login" replace />
+  );
 }
 
 export function DistributorProtectedRoute({ children }) {
-  const token = storage.getDistributorToken();
-
-  if (!token) {
-    return <Navigate to="/distributor/login" replace />;
-  }
-
-  return children;
+  return storage.getDistributorToken() ? (
+    children
+  ) : (
+    <Navigate to="/distributor/login" replace />
+  );
 }
 
 export function StockistProtectedRoute({ children }) {
-  const token = storage.getDistributorToken();
   const user = storage.getDistributorUser();
 
-  if (!token) {
+  if (!storage.getDistributorToken()) {
     return <Navigate to="/distributor/login" replace />;
   }
 
-  if (user?.user_type !== 'stockist') {
-    return <Navigate to="/distributor/dashboard" replace />;
+  return user?.user_type === "stockist" ? (
+    children
+  ) : (
+    <Navigate to="/distributor/dashboard" replace />
+  );
+}
+
+export function AgencyProtectedRoute({ children }) {
+  const user = storage.getDistributorUser();
+
+  if (!storage.getDistributorToken()) {
+    return <Navigate to="/distributor/login" replace />;
   }
 
-  return children;
+  return user?.user_type === "agency" ? (
+    children
+  ) : (
+    <Navigate to="/distributor/dashboard" replace />
+  );
 }
