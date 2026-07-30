@@ -101,7 +101,10 @@ export function DistributorShell({ children, user }) {
 
           {role === "stockist" && (
             <>
-
+ <NavLink to="/distributor/products">
+                <ClipboardList size={18} />
+                Products
+              </NavLink>
            
             <NavLink to="/distributor/orders">
               <ShoppingCart size={18} /> My Orders
