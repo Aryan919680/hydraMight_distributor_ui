@@ -2,7 +2,23 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/distributor",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/distributor/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/distributor/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/distributor/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
